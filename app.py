@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-import speech_recognition as sr
-from pydub import AudioSegment
-import os
+from transcription_service import TranscriptionService
 
 # GUIアプリの作成
 def create_gui():
@@ -23,26 +21,17 @@ def create_gui():
             analyze_audio(file_path)
     
     # 音声ファイルの解析
-    def analyze_audio(file_path):
-        if not file_path.endswith('.wav'):
-            # mp3, mp4, m4aファイルをwavに変換
-            audio = AudioSegment.from_file(file_path)
-            file_path = "temp.wav"
-            audio.export(file_path, format="wav")
-
-        r = sr.Recognizer()
-        with sr.AudioFile(file_path) as source:
-            audio = r.record(source)
-        text = r.recognize_google(audio, language="ja-JP")
+    def analyze_audio(file_path: str):
+        service = TranscriptionService()
+        try:
+            text = service.transcribe(file_path)
+        except Exception as e:
+            status_var.set(f"エラー: {e}")
+            return
         text_prompt.configure(state=tk.NORMAL)
         text_prompt.delete("1.0", tk.END)
         text_prompt.insert(tk.END, text)
         text_prompt.configure(state=tk.DISABLED)
-
-        # temp.wavを削除
-        if os.path.exists("temp.wav"):
-            os.remove("temp.wav")
-
         status_var.set("解析完了")
 
     # テキストのエクスポート
