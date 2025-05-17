@@ -16,10 +16,12 @@ class TranscriptionService:
             audio.export(temp_file, format="wav")
             file_path = temp_file
         recognizer = sr.Recognizer()
-        with sr.AudioFile(file_path) as source:
-            audio = recognizer.record(source)
-        text = recognizer.recognize_google(audio, language="ja-JP")
-        # 一時ファイルの削除
-        if temp_file and os.path.exists(temp_file):
-            os.remove(temp_file)
+        try:
+            with sr.AudioFile(file_path) as source:
+                audio = recognizer.record(source)
+            text = recognizer.recognize_google(audio, language="ja-JP")
+        finally:
+            # 一時ファイルの削除
+            if temp_file and os.path.exists(temp_file):
+                os.remove(temp_file)
         return text
