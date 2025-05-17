@@ -36,5 +36,9 @@ VoiceTranscribe/
 - speechrecognition
 - pydub
 
+## スクリーンショット
+
+![アプリ画面](docs/image.png)
+
 ## ライセンス
 MIT License
