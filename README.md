@@ -36,5 +36,9 @@ VoiceTranscribe/
 - speechrecognition
 - pydub
 
+## スクリーンショット
+
+![VoiceTranscribeアプリのスクリーンショット: シンプルなGUIで、音声ファイルのインポート、文字起こし、テキストのエクスポートやコピーが可能](docs/image.png)
+
 ## ライセンス
 MIT License
